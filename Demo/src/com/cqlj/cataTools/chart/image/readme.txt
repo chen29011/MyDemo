@@ -1,0 +1,1 @@
+JpgChange.java类用于改变图片大小
