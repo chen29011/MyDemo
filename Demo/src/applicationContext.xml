@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!-- 将Person类部署成Spring容器中的Bean -->
+	<!-- <bean id="person" class="com.cqlj.spring.sf.model.Person">
+		<property name="name" value="wawa" />
+	</bean>
+
+	<bean id="chinese" class="com.cqlj.spring.sf.szIoC.Chinese">
+		<property name="axe" ref="stellAxe" />
+	</bean>
+	<bean id="stoneAxe" class="com.cqlj.spring.sf.szIoC.StoneAxe" />
+
+	<bean id="stellAxe" class="com.cqlj.spring.sf.szIoC.StellAxe" /> -->
+	<bean id="buildContextUtil" class="com.cqlj.spring.sf.content.BuildContextUtil"/>
+	<bean class="com.cqlj.spring.sf.event.EmailNotifier" />
+</beans>
