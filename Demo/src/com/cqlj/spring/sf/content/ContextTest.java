@@ -12,5 +12,4 @@ public class ContextTest {
 		System.out.println(p.getContext());
 		System.out.println(ctx == p.getContext());
 	}
-
 }
