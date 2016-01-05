@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans	
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.2.xsd 
+		">
+
+	<!-- Application Message Bundle -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/messages" />
+		<property name="cacheSeconds" value="3000" />
+	</bean>
+
+	<!-- Scans the classpath of this application for @Components to deploy as 
+		beans -->
+	<context:component-scan base-package="com.hkkj.platform.action" />
+	<context:component-scan base-package="com.hkkj.platform.util" />
+	<!-- Configures the @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
+	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
+	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
+
+	<!-- 定时任务 -->
+	<!-- 定时器配置 
+    task:executor/@pool-size：可以指定执行线程池的初始大小、最大大小 
+    task:executor/@queue-capacity：等待执行的任务队列的容量 
+    task:executor/@rejection-policy：当等待队已满时的策略，分为丢弃、由任务执行器直接运行等方式 
+   -->
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:executor id="executor" keep-alive="3600" pool-size="100-200" queue-capacity="500" rejection-policy="CALLER_RUNS" />
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
+	<context:component-scan base-package="com.hkkj.connect.schedule"></context:component-scan>
+
+	<!-- 报表 -->
+	<mvc:resources mapping="/HighCharts/**" location="/WEB-INF/HighCharts/" />
+	<mvc:resources mapping="/HighCharts/adapters/**"
+		location="/WEB-INF/HighCharts/adapters/" />
+	<mvc:resources mapping="/HighCharts/modules/**" location="/WEB-INF/HighCharts/modules/" />
+	<mvc:resources mapping="/HighCharts/themes/**" location="/WEB-INF/HighCharts/themes/" />
+	<!-- 文本编辑器 -->
+	<mvc:resources mapping="/kindeditor/**" location="/WEB-INF/kindeditor/" />
+	<mvc:resources mapping="/kindeditor/lang/**" location="/WEB-INF/kindeditor/lang/" />
+	<mvc:resources mapping="/kindeditor/themes/**" location="/WEB-INF/kindeditor/themes/" />
+	<mvc:resources mapping="/kindeditor/themes/default/**"
+		location="/WEB-INF/kindeditor/themes/default/" />
+	<mvc:resources mapping="/kindeditor/themes/qq/**"
+		location="/WEB-INF/kindeditor/themes/qq/" />
+	<!-- 文档预览 -->
+	<mvc:resources mapping="/Flexpaper/**" location="/WEB-INF/Flexpaper/" />
+	<mvc:resources mapping="/upload/**" location="/WEB-INF/upload/" />
+	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/views 
+		directory -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="102400000000000" />
+	</bean>
+	<!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
+	<!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 -->
+				<prop
+					key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+			</props>
+		</property>
+	</bean>
+	<import resource="jdbc-context.xml" />
+</beans>
