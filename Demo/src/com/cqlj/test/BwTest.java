@@ -1,4 +1,4 @@
-package com.cqlj.text;
+package com.cqlj.test;
 
 public class BwTest {
 	public static void main(String[] args) {
