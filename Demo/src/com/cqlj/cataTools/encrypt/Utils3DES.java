@@ -1,4 +1,4 @@
-package com.cqlj.cataTools.secret;
+package com.cqlj.cataTools.encrypt;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
