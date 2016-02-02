@@ -42,10 +42,10 @@ public class JpgChange {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		File f = new File("E:\\testPhoto\\A.jpg");
+		File f = new File("E:\\bit4K.png");
 		InputStream is = new FileInputStream(f);
-		File fo = new File("E:\\testPhoto\\B.jpg");
+		File fo = new File("E:\\bit4K_512.png");
 		OutputStream os = new FileOutputStream(fo);
-		JpgChange.resizeImage(is,os,1024,"jpg");
+		JpgChange.resizeImage(is,os,512,"png");
 	}
 }
