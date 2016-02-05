@@ -12,9 +12,15 @@ public class CopyByByteStream {
 		byte input[] = new byte[50];
 		long before = System.currentTimeMillis();
 		int count = 0;
-		while(is.read(input) != -1){
+		while (is.read(input) != -1) {
 			os.write(input);
+			count++;
 		}
-
+		os.flush();
+		os.close();
+		is.close();
+		System.out.println(System.currentTimeMillis() - before + "ms");
+		System.out.println("done");
+		System.out.println("读取了：" + count + "次");
 	}
 }
