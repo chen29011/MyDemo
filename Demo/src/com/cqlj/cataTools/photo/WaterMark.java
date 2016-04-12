@@ -1,7 +1,5 @@
 package com.cqlj.cataTools.photo;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -25,6 +23,7 @@ public class WaterMark {
         JPEGImageDecoder jpegDecoder = JPEGCodec.createJPEGDecoder(is);
         //解码当前JPEG数据流，返回BufferedImage对象
         BufferedImage buffImg = jpegDecoder.decodeAsBufferedImage();
+        System.out.println(buffImg.getHeight()+""+buffImg.getWidth());
         //得到画笔对象
         Graphics g = buffImg.getGraphics();
         //创建你要附加的图象。
@@ -34,7 +33,7 @@ public class WaterMark {
         Image img = imgIcon.getImage();
         //将小图片绘到大图片上。
         //5,300 .表示你的小图片在大图片上的位置。
-        g.drawImage(img,200,300,null);
+        g.drawImage(img,buffImg.getWidth()-100,buffImg.getHeight()-80,null);
         g.dispose();
         OutputStream os = new FileOutputStream("E:\\photoTest\\union.jpg");
         //创键编码器，用于编码内存中的图象数据。
